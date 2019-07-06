@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Lowin</title>
+	<link rel="stylesheet" href="auth.css">
+
+	<!-- 新 Bootstrap4 核心 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+	<script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+	<script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	<script>
+		function register() {
+			//jQuery写法
+			var user = $('#user').val();
+			var password = $('#password').val();
+			var email = $('#email').val();
+			//JavaScript原生写法
+			//var user = document.getElementById('user').value;
+			//var password = document.getElementById('password').value;
+
+			$.ajax({
+				type: "post",  //post put get 等等
+				url: "/register",
+				//编写注册功能时，要将异步设置为false（缺省为true）
+				//如果async是ture,对于FireFox浏览器，会刷新掉alert()弹出框的内容
+				//对于Chrome浏览器，第一次注册时会执行error的回调函数，输出“请求在连接过程中出现错误..”
+				async:false,
+				data: {  //要传入ashx文件的数据
+					"username": user,
+					"password": password,
+					"email":email
+				},
+				success: function (data, textStatus) {
+					//连接至ashx文件成功时，执行函数
+					//data是从ashx文件返回来的信息，可以是字符串也可以是一个对象
+					//如果data是字符串，则可以输出data的值
+					//如果data是对象，则可以将这个对象的各属性值赋给其他变量
+					//textStatus是表示状态的字符串，这里textStatus的值是"success"
+					//alert(data);
+					alert("注册成功\n");
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {  //连接至ashx文件失败时，执行函数
+					//XMLHttpRequest在这个例子里没有用到
+					//textStatus是表示状态的字符串，这里textStatus的值是"error"
+					//errorThrown包含连接失败的信息，可以输出查看
+					alert("请求在连接过程中出现错误..\n" + errorThrown);
+				}
+			});
+		}
+
+		// function login(){
+		// 	debugger;
+		// 	var obj = window.document.location;
+		// 	var BASE_PATH = obj.href.substring(0, obj.href.indexOf(obj.pathname));
+		// 	var password = $('#loginPassword').val();
+		// 	var email = $('#loginEmail').val();
+		// 	//JavaScript原生写法
+		// 	//var user = document.getElementById('user').value;
+		// 	//var password = document.getElementById('password').value;
+		//
+		// 	$.ajax({
+		// 		type: "post",  //post put get 等等
+		// 		url: "/login",
+		// 		//编写注册功能时，要将异步设置为false（缺省为true）
+		// 		//如果async是ture,对于FireFox浏览器，会刷新掉alert()弹出框的内容
+		// 		//对于Chrome浏览器，第一次注册时会执行error的回调函数，输出“请求在连接过程中出现错误..”
+		// 		async:false,
+		// 		data: {  //要传入ashx文件的数据
+		// 			"userpassword": password,
+		// 			"email":email
+		// 		},
+		// 		success: function (data, textStatus) {
+		// 			//连接至ashx文件成功时，执行函数
+		// 			//data是从ashx文件返回来的信息，可以是字符串也可以是一个对象
+		// 			//如果data是字符串，则可以输出data的值
+		// 			//如果data是对象，则可以将这个对象的各属性值赋给其他变量
+		// 			//textStatus是表示状态的字符串，这里textStatus的值是"success"
+		// 			alert(data);
+		// 			//alert("注册成功\n");
+		// 		},
+		// 		error: function (XMLHttpRequest, textStatus, errorThrown) {  //连接至ashx文件失败时，执行函数
+		// 			//XMLHttpRequest在这个例子里没有用到
+		// 			//textStatus是表示状态的字符串，这里textStatus的值是"error"
+		// 			//errorThrown包含连接失败的信息，可以输出查看
+		// 			alert("请求在连接过程中出现错误..\n" + errorThrown);
+		// 		}
+		// 	});
+		// }
+	</script>
+</head>
+
+<body>
+	<div class="lowin">
+		<div class="lowin-brand">
+			<img src="kodinger.jpg" alt="logo">
+		</div>
+		<div class="lowin-wrapper">
+			<div class="lowin-box lowin-login">
+				<div class="lowin-box-inner">
+					<form action="/login" method="post">
+						<p>Sign in to continue</p>
+						<div class="lowin-group">
+							<label>Email <a href="#" class="login-back-link">Sign in?</a></label>
+							<input type="email" autocomplete="email" name="email" class="lowin-input">
+						</div>
+						<div class="lowin-group password-group">
+							<label>Password <a href="#" class="forgot-link">Forgot Password?</a></label>
+							<input type="password" name="userpassword" autocomplete="current-password" class="lowin-input">
+						</div>
+						<button class="lowin-btn login-btn" type="submit">
+							Sign In
+						</button>
+
+						<div class="text-foot">
+							Don't have an account? <a href="" class="register-link">Register</a>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="lowin-box lowin-register">
+				<div class="lowin-box-inner">
+					<form>
+						<p>Let's create your account</p>
+						<div class="lowin-group">
+							<label>Name</label>
+							<input id="user" type="text" name="name" autocomplete="name" class="lowin-input">
+						</div>
+						<div class="lowin-group">
+							<label>Email</label>
+							<input id="email" type="email" autocomplete="email" name="email" class="lowin-input">
+						</div>
+						<div class="lowin-group">
+							<label>Password</label>
+							<input id="password" type="password" name="password" autocomplete="current-password" class="lowin-input">
+						</div>
+						<button class="lowin-btn" onclick="register()">
+							Sign Up
+						</button>
+						<div class="text-foot">
+							Already have an account? <a href="" class="login-link">Login</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<footer class="lowin-footer">
+		</footer>
+	</div>
+
+	<script src="auth.js"></script>
+	<script>
+		Auth.init({
+			login_url: '/login',
+			forgot_url: '#forgot'
+		});
+	</script>
+</body>
+</html>
